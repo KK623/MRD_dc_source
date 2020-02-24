@@ -148,7 +148,7 @@ else if(en)
  count<=count+1;
  else 
  begin
- count=0;
+ count<=0;
  end
  end
 else 
