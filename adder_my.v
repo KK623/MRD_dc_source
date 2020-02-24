@@ -27,37 +27,29 @@ data_out
 );
 
 input clk,rst,en;
-input [DIMENSION*WIDTH-1:0] data1,data1;
+input [DIMENSION*WIDTH-1:0] data1,data2;
 output reg [DIMENSION*WIDTH-1:0] data_out;
 
 
-always @(posedge clk)
-begin
-if(!rst)
-data_out<=0;
-else if(en)
-begin
 genvar i;
+
 generate
 for(i=0;i<DIMENSION;i=i+1)
 	begin:adder_DIMENSION
-		
+		always@(posedge clk)
+		begin
+		if(!rst)
+		data_out[(i+1)*WIDTH-1:i*WIDTH] <=0;
+		else if(en)
 		data_out[(i+1)*WIDTH-1:i*WIDTH] <= data1[(i+1)*WIDTH-1:i*WIDTH]-data2[(i+1)*WIDTH-1:i*WIDTH];
+		else
+		data_out[(i+1)*WIDTH-1:i*WIDTH] <=0;
+		end
+		
 		
 	end
 
 
 endgenerate
-
-
-end
-else
-data_out<=0;
-
-end
-
-
-
-
 
 endmodule

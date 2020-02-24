@@ -41,7 +41,7 @@ reg slc_sig2;
 
 wire signed [DIMENSION*WIDTH-1:0] M_in;
 
-wire signed [DIMENSION*WIDTH-1:0] MV_in;
+//wire signed [DIMENSION*WIDTH-1:0] MV_in;
 wire signed [DIMENSION*WIDTH-1:0] MV_out;
 
 wire signed [DIMENSION*WIDTH-1:0] rj;
@@ -55,7 +55,9 @@ wire signed[WIDTH-1:0]  fenzi;
 
 wire signed [WIDTH-1:0] alpha;
 
-wire signed [WIDTH-1:0] alpharj;
+wire signed [DIMENSION*WIDTH-1:0] alpharj;
+
+wire signed [DIMENSION*WIDTH-1:0] Mi_update;
 
 M2V M2V_MRDinv(.clk(clk),.rst(rst),.en(en),
 .M1(A1),.M2(A2),.M3(A3),.M4(A4),.M5(A5),.M6(A6),.M7(A7),.M8(A8),.M9(A9),.M10(A10),.M11(A11),.M12(A12),.M13(A13),.M14(A14),.M15(A15),.M16(A16),
@@ -79,7 +81,8 @@ assign alpha = fenzi-fenmu;
 
 assign alpharj = alpha*rj;
 
-assign Mi_update = alpharj + Mi;  //加法要改成时序的加法模块好像
+//assign Mi_update = alpharj + Mi;  //加法要改成时序的加法模块好像
+adder_my add1(.clk(clk),.rst(rst),.en(en),.data1(Mi),.data2(alpha*rj),.data_out(Mi_update));
 
 
 
