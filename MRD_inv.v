@@ -33,7 +33,13 @@ input signed [DIMENSION*WIDTH-1:0] M_init;
 input signed [DIMENSION*WIDTH-1:0] ej;
 output signed [DIMENSION*WIDTH-1:0] M_iter;
 
-reg signed [DIMENSION*WIDTH-1:0] M_in;
+reg [2:0] iter_num;
+
+reg slc_sig1;  //控制MUX的信号
+reg slc_sig2;
+
+
+wire signed [DIMENSION*WIDTH-1:0] M_in;
 
 wire signed [DIMENSION*WIDTH-1:0] MV_in;
 wire signed [DIMENSION*WIDTH-1:0] MV_out;
@@ -42,8 +48,7 @@ wire signed [DIMENSION*WIDTH-1:0] rj;
 
 wire signed [DIMENSION*WIDTH-1:0] Mi;  ///第i次迭代的mj
 
-reg slc_sig1;  //控制MUX的信号
-reg slc_sig2;
+
 
 wire signed[WIDTH-1:0]  fenmu;
 wire signed[WIDTH-1:0]  fenzi;
@@ -59,9 +64,11 @@ M2V M2V_MRDinv(.clk(clk),.rst(rst),.en(en),
 
 assign rj = ej - MV_out;
 
-MUX2t1 MUX1(.clk(clk),.rst(rst),.en(en),.data1(Mi),.data2(rj),.select_sig(slc_sig2),.data_selected(M_in));
 
-MUX2t1 MUX2(.clk(clk),.rst(rst),.en(en),.data1(M_init),.data2(),.select_sig(slc_sig1),.data_selected(Mi));
+MUX2t1 MUX1(.clk(clk),.rst(rst),.en(en),.data1(M_init),.data2(Mi_update),.select_sig(slc_sig1),.data_selected(Mi));
+
+MUX2t1 MUX2(.clk(clk),.rst(rst),.en(en),.data1(Mi),.data2(rj),.select_sig(slc_sig2),.data_selected(M_in));
+
 
 
 V2V V2V1(.clk(clk),.rst(rst),.en(en),.V1(MV_out),.V2(MV_out),.VV(fenmu));
@@ -71,6 +78,11 @@ V2V V2V2(.clk(clk),.rst(rst),.en(en),.V1(MV_out),.V2(rj),.VV(fenzi));
 assign alpha = fenzi-fenmu;
 
 assign alpharj = alpha*rj;
+
+assign Mi_update = alpharj + Mi;  //加法要改成时序的加法模块好像
+
+
+
  
 
 
