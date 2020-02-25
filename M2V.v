@@ -29,7 +29,7 @@ MV
     input clk,rst,en;
     input signed [DIMENSION*WIDTH-1:0] M1,M2,M3,M4,M5,M6,M7,M8,M9,M10,M11,M12,M13,M14,M15,M16;
     input signed [DIMENSION*WIDTH-1:0] V;
-    output signed [DIMENSION*WIDTH-1:0] MV;
+    output reg signed [DIMENSION*WIDTH-1:0] MV;
 
     reg [WIDTH-1:0] MV1,MV2,MV3,MV4,MV5,MV6,MV7,MV8,MV9,MV10,MV11,MV12,MV13,MV14,MV15,MV16;
     
@@ -55,6 +55,8 @@ MV
 
     
     reg [4:0] count;
+    
+    reg [6:0] c_n;
 
 
 genvar i;
@@ -129,15 +131,6 @@ assign r16[8]= r16[24]; assign r16[9]= r16[25]; assign r16[10]= r16[26]; assign 
     PE PE_r15(.clk(clk),.rst(rst),.en(en1415),.in_A(r15[count]),.in_B(r14t15),.out_B(r15t16),.P(wMV15),.en_o(en1516));
     PE PE_r16(.clk(clk),.rst(rst),.en(en1516),.in_A(r16[count]),.in_B(r15t16),.out_B(      ),.P(wMV16),.en_o(      ));
 
-
-/*assign r2[0]=0;
-assign r3[0]=0;
-assign r3[1]=0;
-assign r4[0]=0;
-assign r4[1]=0;
-assign r4[3]=0;*/
-
-
 always@(posedge clk)
 begin
 if(!rst)
@@ -155,7 +148,7 @@ else
   count<=0;
 end
 
-   always@(posedge clk)
+  /* always@(posedge clk)
    begin
     if(!rst )
     begin
@@ -179,6 +172,44 @@ end
     MV13<=0; MV14<=0;  MV15<=0; MV16<=0;
     end
     
+    end*/
+    always@(posedge clk)
+    begin
+    if(!rst)
+    MV<=0;
+    else if(en)
+    if(c_n==16)
+    MV[7:0]<=wMV1;
+    else if(c_n==17)
+    MV[15:8]<=wMV2;
+    else if(c_n==18)
+    MV[23:16]<=wMV3;
+    else if(c_n==19)
+    MV[31:24]<=wMV4;
+    else if(c_n==20)
+    MV[39:32]<=wMV5;
+    else if(c_n==21)
+    MV[47:40]<=wMV6;
+    else if(c_n==22)
+    MV[55:48]<=wMV7;
+    else if(c_n==23)
+    MV[63:56]<=wMV8;
+    else if(c_n==24)
+    MV[71:64]<=wMV9;
+    else if(c_n==26)
+    MV[79:72]<=wMV10;
+    else if(c_n==27)
+    MV[87:80]<=wMV11;
+    else if(c_n==28)
+    MV[95:88]<=wMV12;
+    else if(c_n==29)
+    MV[103:96]<=wMV13;
+    else if(c_n==30)
+    MV[111:104]<=wMV14;
+    else if(c_n==31)
+    MV[119:112]<=wMV15;
+    else if(c_n==32)
+    MV[127:120]<=wMV16;
     end
 
 endmodule
