@@ -37,6 +37,7 @@ input signed [DIMENSION*WIDTH-1:0] x0;
 input signed [256*WIDTH-1:0] y;
 output  signed [DIMENSION*WIDTH-1:0] x_final;
 
+wire signed [DIMENSION*WIDTH-1:0] b;
 
 wire signed [DIMENSION*WIDTH-1:0] A1,A2,A3,A4,A5,A6,A7,A8,
 A9,A10,A11,A12,A13,A14,A15,A16; //gram matrix
@@ -44,17 +45,16 @@ A9,A10,A11,A12,A13,A14,A15,A16; //gram matrix
 wire  [DIMENSION*WIDTH-1:0] M_iter_c1,M_iter_c2,M_iter_c3,M_iter_c4,M_iter_c5,M_iter_c6,M_iter_c7,M_iter_c8,
 M_iter_c9,M_iter_c10,M_iter_c11,M_iter_c12,M_iter_c13,M_iter_c14,M_iter_c15,M_iter_c16;
 
+wire signed  [16*WIDTH-1:0] Mb;
 
 
-
-pre_processing pre_process_top_module(clk,rst,en,
+pre_process pre_process_top_module(clk,rst,en,
 H1,H2,H3,H4,H5,H6,H7,H8,
 H9,H10,H11,H12,H13,H14,H15,H16,
 y,
 A1,A2,A3,A4,A5,A6,A7,A8,
 A9,A10,A11,A12,A13,A14,A15,A16,
-y_out);
-
+b);
 
 MRD_init_all MRD_inv_module(clk,rst,en,
 A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,,
@@ -68,7 +68,22 @@ M_iter_c1,M_iter_c2,M_iter_c3,M_iter_c4,M_iter_c5,M_iter_c6,M_iter_c7,M_iter_c8,
 M_iter_c9,M_iter_c10,M_iter_c11,M_iter_c12,M_iter_c13,M_iter_c14,M_iter_c15,M_iter_c16);
 
 
-Iteration_unit Iteration_unit_module();
+
+M2V Mb_generation(clk,rst,en,
+M_iter_c1,M_iter_c2,M_iter_c3,M_iter_c4,M_iter_c5,M_iter_c6,M_iter_c7,M_iter_c8,
+M_iter_c9,M_iter_c10,M_iter_c11,M_iter_c12,M_iter_c13,M_iter_c14,M_iter_c15,M_iter_c16,
+b,
+Mb);
+
+Iteration_unit Iteration_unit_module(clk,rst,en,
+A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,
+M_iter_c1,M_iter_c2,M_iter_c3,M_iter_c4,M_iter_c5,M_iter_c6,M_iter_c7,M_iter_c8,
+M_iter_c9,M_iter_c10,M_iter_c11,M_iter_c12,M_iter_c13,M_iter_c14,M_iter_c15,M_iter_c16,
+x0,
+Mb,
+x_final
+);
+
 
 
 endmodule

@@ -36,9 +36,9 @@ H9,H10,H11,H12,H13,H14,H15,H16;   //Hi is the Hermite matrix of original H(256*1
 
 input signed [DIMENSION*WIDTH-1:0] y_in;
 
-output signed [DIMENSION*WIDTH-1:0] A1,A2,A3,A4,A5,A6,A7,A8,
+output signed [16*WIDTH-1:0] A1,A2,A3,A4,A5,A6,A7,A8,
 A9,A10,A11,A12,A13,A14,A15,A16;
-output signed [DIMENSION*WIDTH-1:0] y_out;
+output signed [16*WIDTH-1:0] y_out;
 
 Gram_gen  #(DIMENSION,WIDTH) Gram_gen_256_module(clk,rst,en,
 H1,H2,H3,H4,H5,H6,H7,H8,H9,H10,H11,H12,H13,H14,H15,H16,

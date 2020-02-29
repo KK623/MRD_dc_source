@@ -29,7 +29,7 @@ MV
     input clk,rst,en;
     input signed [DIMENSION*WIDTH-1:0] M1,M2,M3,M4,M5,M6,M7,M8,M9,M10,M11,M12,M13,M14,M15,M16;
     input signed [DIMENSION*WIDTH-1:0] V;
-    output reg signed [DIMENSION*WIDTH-1:0] MV;
+    output reg signed [16*WIDTH-1:0] MV;
 
     reg [WIDTH-1:0] MV1,MV2,MV3,MV4,MV5,MV6,MV7,MV8,MV9,MV10,MV11,MV12,MV13,MV14,MV15,MV16;
     
