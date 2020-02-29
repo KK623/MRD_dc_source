@@ -18,7 +18,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-///还需要并行转回串行
+
 module M2V#(parameter DIMENSION=16, WIDTH=8)   //16*16 × 16*1,dimension is the number of number in a line, is the same as dimension in PE.V
 (clk,rst,en,
 M1,M2,M3,M4,M5,M6,M7,M8,M9,M10,M11,M12,M13,M14,M15,M16,
@@ -56,7 +56,7 @@ MV
     
     reg [4:0] count;
     
-    reg [6:0] c_n;
+    reg [8:0] c_n;
 
 
 genvar i;
@@ -148,67 +148,53 @@ else
   count<=0;
 end
 
-  /* always@(posedge clk)
-   begin
-    if(!rst )
-    begin
-    MV1<=0; MV2<=0;  MV3<=0; MV4<=0;
-    MV5<=0; MV6<=0;  MV7<=0; MV8<=0;
-    MV9<=0; MV10<=0;  MV11<=0; MV12<=0;
-    MV13<=0; MV14<=0;  MV15<=0; MV16<=0;
-    end
-    else if(en)
-    begin
-     MV1<= wMV1;  MV2<= wMV2;  MV3<=wMV3; MV4<=wMV4;
-     MV5<= wMV5;  MV6<= wMV6;  MV7<=wMV7; MV8<=wMV8;
-     MV9<= wMV9;  MV10<= wMV10;  MV11<=wMV11; MV12<=wMV12;
-     MV13<= wMV13;  MV14<= wMV14;  MV15<=wMV15; MV16<=wMV16;
-    end
-    else 
-    begin
-    MV1<=0; MV2<=0;  MV3<=0; MV4<=0;
-    MV5<=0; MV6<=0;  MV7<=0; MV8<=0;
-    MV9<=0; MV10<=0;  MV11<=0; MV12<=0;
-    MV13<=0; MV14<=0;  MV15<=0; MV16<=0;
-    end
-    
-    end*/
+always@(posedge clk)
+begin
+if(!rst)
+c_n<=0;
+else if(en)
+c_n<=c_n+1;
+else
+c_n<=0;
+end
+
+
     always@(posedge clk)
     begin
     if(!rst)
     MV<=0;
     else if(en)
-    if(c_n==16)
+    if(c_n==DIMENSION)
     MV[7:0]<=wMV1;
-    else if(c_n==17)
+    else if(c_n==DIMENSION+1)
     MV[15:8]<=wMV2;
-    else if(c_n==18)
+    else if(c_n==DIMENSION+2)
     MV[23:16]<=wMV3;
-    else if(c_n==19)
+    else if(c_n==DIMENSION+3)
     MV[31:24]<=wMV4;
-    else if(c_n==20)
+    else if(c_n==DIMENSION+4)
     MV[39:32]<=wMV5;
-    else if(c_n==21)
+    else if(c_n==DIMENSION+5)
     MV[47:40]<=wMV6;
-    else if(c_n==22)
+    else if(c_n==DIMENSION+6)
     MV[55:48]<=wMV7;
-    else if(c_n==23)
+    else if(c_n==DIMENSION+7)
     MV[63:56]<=wMV8;
-    else if(c_n==24)
+    else if(c_n==DIMENSION+8)
     MV[71:64]<=wMV9;
-    else if(c_n==26)
+    else if(c_n==DIMENSION+9)
     MV[79:72]<=wMV10;
-    else if(c_n==27)
+    else if(c_n==DIMENSION+10)
     MV[87:80]<=wMV11;
-    else if(c_n==28)
+    else if(c_n==DIMENSION+11)
     MV[95:88]<=wMV12;
-    else if(c_n==29)
+    else if(c_n==DIMENSION+12)
     MV[103:96]<=wMV13;
-    else if(c_n==30)
+    else if(c_n==DIMENSION+13)
     MV[111:104]<=wMV14;
-    else if(c_n==31)
+    else if(c_n==DIMENSION+14)
     MV[119:112]<=wMV15;
-    else if(c_n==32)
+    else if(c_n==DIMENSION+15)
     MV[127:120]<=wMV16;
     end
 
