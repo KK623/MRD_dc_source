@@ -874,7 +874,7 @@ else if(en)
 				G5[4*WIDTH-1:3*WIDTH]<=-P135;
 				G4[3*WIDTH-1:2*WIDTH]<=-P144;
 				G3[3*WIDTH-1:1*WIDTH]<=-P153;
-				G2[1*WIDTH-1:10*WIDTH]<=-P162;
+				G2[1*WIDTH-1:0*WIDTH]<=-P162;
             end	
         else if(c_n==DIMENSION+17)
             begin
